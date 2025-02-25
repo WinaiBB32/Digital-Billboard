@@ -64,37 +64,8 @@ const checkAndCreateTables = () => {
     });
   });
 
-  // ✅ เพิ่ม admin คนแรก
-  createAdminUser();
 };
 
-const createAdminUser = async () => {
-  const adminUsername = "admin";
-  const adminEmail = "admin@example.com";
-  const adminPassword = "admin123"; // ✅ เปลี่ยนได้ตามต้องการ
 
-  db.query(`SELECT * FROM users WHERE role = 'admin'`, async (err, results) => {
-    if (err) {
-      console.error("❌ Failed to check admin user:", err.message);
-      return;
-    }
-
-    if (results.length === 0) {
-      // ✅ ถ้ายังไม่มี admin → เพิ่ม admin คนแรก
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
-      const insertQuery = `INSERT INTO users (username, email, role, password) VALUES (?, ?, 'admin', ?)`;
-
-      db.query(insertQuery, [adminUsername, adminEmail, hashedPassword], (err) => {
-        if (err) {
-          console.error("❌ Failed to create admin user:", err.message);
-        } else {
-          console.log("✅ Admin user created successfully (username: admin, password: admin123)");
-        }
-      });
-    } else {
-      console.log("✅ Admin user already exists");
-    }
-  });
-};
 
 module.exports = db;

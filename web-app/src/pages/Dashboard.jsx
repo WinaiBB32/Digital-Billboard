@@ -1,40 +1,23 @@
-import { useEffect, useState } from "react";
-import { Card, Row, Col, Table } from "antd";
-import dashboardService from "../services/dashboardService";
 
-const Dashboard = () => {
-  const [userCount, setUserCount] = useState(0);
-  const [meetingStats, setMeetingStats] = useState([]);
+import { Card } from "antd";
+import PropTypes from "prop-types"; // ✅ Import PropTypes
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      const userResponse = await dashboardService.getUserCount();
-      const meetingResponse = await dashboardService.getMeetingStats();
-      setUserCount(userResponse.data.count);
-      setMeetingStats(meetingResponse.data);
-    } catch (error) {
-      console.error("❌ Error loading dashboard data:", error);
-    }
-  };
-
+const Dashboard = ({ title }) => {
   return (
-    <div>
-      <h2>📊 Dashboard</h2>
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card title="👤 จำนวนผู้ใช้งาน" bordered>
-            <h2>{userCount}</h2>
-          </Card>
-        </Col>
-      </Row>
-      <h3>📅 จำนวนประชุมแยกตามกลุ่มงานแต่ละเดือน</h3>
-      <Table dataSource={meetingStats} rowKey="id" />
-    </div>
+    <Card title={title} variant="outlined">
+      <p>Welcome to the Dashboard</p>
+    </Card>
   );
+};
+
+// ✅ ใช้ `prop-types` กำหนดประเภทของ Props
+Dashboard.propTypes = {
+  title: PropTypes.string, // ต้องเป็น String
+};
+
+// ✅ กำหนดค่าเริ่มต้นของ Props
+Dashboard.defaultProps = {
+  title: "Dashboard",
 };
 
 export default Dashboard;

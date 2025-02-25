@@ -1,17 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/auth"; // ✅ ตรวจสอบ URL ให้ถูกต้อง
+const API_URL = "http://localhost:5000/api/auth";
 
 const authService = {
-  login: async (credentials) => {
-    try {
-      const response = await axios.post(`${API_URL}/login`, credentials);
-      return response.data;
-    } catch (error) {
-      console.error("❌ API Login Failed:", error);
-      throw error;
-    }
-  },
+  login: (credentials) => axios.post(`${API_URL}/login`, credentials),
   logout: () => {
     localStorage.removeItem("token");
     window.location.href = "/login";

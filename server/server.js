@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./models/db");
 const app = express();
+const menuRoutes = require("./routes/menu");
 
 // ✅ อนุญาตให้ React (`localhost:5173`) ใช้งาน API
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -15,6 +16,7 @@ app.use("/api/meetings", require("./routes/meetings"));
 app.use("/api/acting-director", require("./routes/actingDirector"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/work-groups", require("./routes/workGroups"));
+app.use("/api/menu", menuRoutes);
 
 
 

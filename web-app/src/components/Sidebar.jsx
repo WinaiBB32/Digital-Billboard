@@ -1,45 +1,32 @@
 import { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";  // ✅ นำเข้า prop-types
-import { Layout, Menu } from "antd";
+import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import menuService from "../services/menuService";
+import axios from "axios";
+import PropTypes from "prop-types"; // ✅ Import PropTypes
 
-const { Sider } = Layout;
-
-const Sidebar = ({ collapsed }) => {
-  const { user } = useContext(AuthContext);
+const Sidebar = ({ userRole }) => {
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-    if (user) {
-      menuService.getMenuByRole(user.role)
-        .then(response => setMenuItems(response.data))
-        .catch(error => console.error("❌ Error loading menu:", error));
+    if (userRole) {
+      axios.get(`http://localhost:5000/api/menu/${userRole}`)
+        .then((response) => setMenuItems(response.data))
+        .catch((error) => console.error("❌ Error loading menu:", error));
     }
-  }, [user]);
+  }, [userRole]);
 
   return (
-    <Sider collapsed={collapsed}>
-      <Menu theme="dark" mode="vertical">
-        {menuItems.map(item => (
-          <Menu.Item key={item.menu_key}>
-            <Link to={item.menu_path}>{item.menu_label}</Link>
-          </Menu.Item>
-        ))}
-      </Menu>
-    </Sider>
+    <Menu mode="inline" theme="dark" items={menuItems.map(item => ({
+      key: item.key,
+      label: <Link to={item.path}>{item.label}</Link>
+    }))} />
   );
 };
 
-// ✅ กำหนด PropTypes
+// ✅ ใช้ `prop-types` กำหนดประเภทของ Props
 Sidebar.propTypes = {
-  collapsed: PropTypes.bool, // `collapsed` เป็น boolean (true/false)
-};
-
-// ✅ กำหนดค่า Default Props
-Sidebar.defaultProps = {
-  collapsed: false,
+  userRole: PropTypes.string.isRequired, // ต้องเป็น String และต้องส่งค่าเสมอ
 };
 
 export default Sidebar;
