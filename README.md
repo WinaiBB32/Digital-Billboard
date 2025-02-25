@@ -1,2 +1,0 @@
-# Digital-Billboard
-ระบบโฆษณาจอดิจิทัล

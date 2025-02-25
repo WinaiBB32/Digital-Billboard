@@ -1,0 +1,25 @@
+/* ทำให้หน้า Login เต็มจอ */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* ✅ ซ่อน Scroll Bar ที่ไม่จำเป็น */
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ✅ ป้องกัน Scroll Bar */
+    background-color: #001529; /* ✅ ใช้สี Ant Design */
+  }
+  
+  .login-card {
+    width: 350px;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px; /* ✅ ทำให้มุมโค้งมน */
+    text-align: center;
+  }
+  
